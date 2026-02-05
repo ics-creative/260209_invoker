@@ -33,23 +33,11 @@ previewElement?.addEventListener("interest", async (event: InterestEvent) => {
   const image = doc.querySelector(`meta[property="og:image"]`)?.getAttribute("content") || "";
 
   if (previewElement && previewImageElement && previewTitleElement && previewDescriptionElement) {
+    // 画像の読み込みが完了するまで待つ
+    await awaitImageLoad(image);
+    previewImageElement.src = image;
     previewTitleElement.textContent = title;
     previewDescriptionElement.textContent = description;
-
-    // 画像の読み込みが完了するまで待つ
-    if (image) {
-      await new Promise<void>((resolve) => {
-        const img = new Image();
-        img.onload = () => {
-          previewImageElement.src = image;
-          return resolve();
-        };
-        img.src = image;
-      });
-    } else {
-      console.log("画像がありません");
-      previewImageElement.src = "";
-    }
 
     // OGPデータの取得が完了したらプレビューを表示
     previewElement?.showPopover?.();
@@ -68,3 +56,13 @@ previewElement?.addEventListener("loseinterest", async () => {
     previewElement?.hidePopover?.();
   }
 });
+
+const awaitImageLoad = async (image: string) => {
+  return new Promise<void>((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      return resolve();
+    };
+    img.src = image;
+  });
+};
