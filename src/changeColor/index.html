@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Change Color</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+  </head>
+
+  <body>
+    <div class="globalContainer">
+      <h1>カスタムコマンドの基本</h1>
+      <div class="container">
+        <div id="colorBox" class="colorBox"></div>
+        <div class="buttonGroup">
+          <button command="--color-red" commandfor="colorBox">Red</button>
+          <button command="--color-green" commandfor="colorBox">Green</button>
+          <button command="--color-blue" commandfor="colorBox">Blue</button>
+          <button command="--color-reset" commandfor="colorBox">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      const colorBox = document.getElementById("colorBox");
+
+      // カスタムコマンドを定義
+      colorBox.addEventListener("command", (event) => {
+        const command = event.command;
+
+        switch (command) {
+          case "--color-red":
+            colorBox.style.backgroundColor = "red";
+            break;
+          case "--color-green":
+            colorBox.style.backgroundColor = "green";
+            break;
+          case "--color-blue":
+            colorBox.style.backgroundColor = "blue";
+            break;
+          case "--color-reset":
+            colorBox.style.backgroundColor = "transparent";
+            break;
+        }
+      });
+    </script>
+  </body>
+</html>

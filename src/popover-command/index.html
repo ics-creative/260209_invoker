@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vanilla JS App</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+  </head>
+  <body>
+    <div class="globalContainer">
+      <h1>commandで開くポップオーバー</h1>
+
+      <button command="show-popover" commandfor="popover" class="basicButton">
+        ポップオーバーをひらく
+      </button>
+      <div id="popover" popover class="popoverContent">
+        <p>ポップオーバーの説明文が入ります。</p>
+      </div>
+    </div>
+  </body>
+</html>
