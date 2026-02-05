@@ -16,7 +16,8 @@
 
 body {
   font-family:
-    "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP",
+    sans-serif;
   background-color: #fff;
 }
 
@@ -381,9 +382,8 @@ nav li {
   border: 1px solid var(--color-border);
   position-anchor: --anchor-0;
   top: anchor(bottom);
-  left: anchor(right);
+  left: anchor(left);
   margin-top: 8px;
-  margin-left: 8px;
   width: 322px;
   background-color: #fff;
   border-radius: 8px;

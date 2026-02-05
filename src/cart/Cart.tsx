@@ -53,6 +53,7 @@ const Cart = () => {
     return () => {
       cartElement.removeEventListener("command", handleCommand);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.count, 0);
