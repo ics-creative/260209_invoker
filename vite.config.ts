@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: {
           cart: resolve(__dirname, "src/cart/index.html"),
+          changeColor: resolve(__dirname, "src/change-color/index.html"),
           fetch: resolve(__dirname, "src/fetch/index.html"),
           page1: resolve(__dirname, "src/fetch/page1.html"),
           page2: resolve(__dirname, "src/fetch/page2.html"),
