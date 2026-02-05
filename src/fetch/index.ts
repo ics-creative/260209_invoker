@@ -6,12 +6,6 @@ const previewTitleElement = previewElement?.querySelector<HTMLHeadingElement>(".
 const previewDescriptionElement =
   previewElement?.querySelector<HTMLParagraphElement>(".ogpDescription");
 
-// 各リンクにユニークなanchor-nameを設定
-const links = document.querySelectorAll<HTMLAnchorElement>('a[interestfor="preview"]');
-links.forEach((link, index) => {
-  link.style.anchorName = `--anchor-${index}`;
-});
-
 previewElement?.addEventListener("interest", async (event: InterestEvent) => {
   const sourceElement = event.source as HTMLAnchorElement;
   const url = sourceElement.href;
@@ -39,9 +33,23 @@ previewElement?.addEventListener("interest", async (event: InterestEvent) => {
   const image = doc.querySelector(`meta[property="og:image"]`)?.getAttribute("content") || "";
 
   if (previewElement && previewImageElement && previewTitleElement && previewDescriptionElement) {
-    previewImageElement.src = image;
     previewTitleElement.textContent = title;
     previewDescriptionElement.textContent = description;
+
+    // 画像の読み込みが完了するまで待つ
+    if (image) {
+      await new Promise<void>((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          previewImageElement.src = image;
+          return resolve();
+        };
+        img.src = image;
+      });
+    } else {
+      console.log("画像がありません");
+      previewImageElement.src = "";
+    }
 
     // OGPデータの取得が完了したらプレビューを表示
     previewElement?.showPopover?.();
@@ -50,14 +58,13 @@ previewElement?.addEventListener("interest", async (event: InterestEvent) => {
 
 previewElement?.addEventListener("loseinterest", async () => {
   if (previewElement && previewImageElement && previewTitleElement && previewDescriptionElement) {
-    // プレビューを非表示
-    previewElement?.hidePopover?.();
-
     // アニメーションを待つために250ms待つ
     await new Promise((resolve) => setTimeout(resolve, 250));
     // データをクリア
     previewImageElement.src = "";
     previewTitleElement.textContent = "";
     previewDescriptionElement.textContent = "";
+    // プレビューを非表示
+    previewElement?.hidePopover?.();
   }
 });
