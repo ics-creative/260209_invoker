@@ -351,7 +351,7 @@ nav li {
   gap: 8px;
 }
 
-.productDescription{
+.productDescription {
   font-size: var(--font-size-small);
   color: var(--color-secondary);
   line-height: 1.6;
