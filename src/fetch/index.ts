@@ -1,5 +1,7 @@
 import type { InterestEvent } from "../types";
 
+let showPreview = false;
+
 const previewElement = document.querySelector<HTMLElement>(".preview");
 const previewImageElement = previewElement?.querySelector<HTMLImageElement>(".ogpImage");
 const previewTitleElement = previewElement?.querySelector<HTMLHeadingElement>(".ogpTitle");
@@ -17,6 +19,7 @@ previewElement?.addEventListener("interest", async (event: InterestEvent) => {
 
   const response = await fetch(url);
   const html = await response.text();
+  showPreview = true;
 
   // DOMParserでHTMLをパース
   const parser = new DOMParser();
@@ -48,12 +51,16 @@ previewElement?.addEventListener("loseinterest", async () => {
   if (previewElement && previewImageElement && previewTitleElement && previewDescriptionElement) {
     // アニメーションを待つために250ms待つ
     await new Promise((resolve) => setTimeout(resolve, 250));
+    if (showPreview) {
+      return; // プレビューが表示されている場合は何もしない
+    }
     // データをクリア
     previewImageElement.src = "";
     previewTitleElement.textContent = "";
     previewDescriptionElement.textContent = "";
     // プレビューを非表示
     previewElement?.hidePopover?.();
+    showPreview = false;
   }
 });
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import type { CommandEvent } from "../types";
 
 export const CART_ID = "cart";
@@ -12,9 +12,12 @@ interface CartItem {
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const cartRef = useRef<HTMLButtonElement>(null);
+  // const cartRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * 商品をカートに追加する
+   */
   const handleAddToCart = useCallback(
     (productId: string, productName: string) => {
       setCartItems((prevItems) => {
@@ -31,30 +34,39 @@ const Cart = () => {
     [setCartItems],
   );
 
+  /**
+   * コマンドイベントのハンドラー
+   */
   const handleCommand = useCallback(
     (event: CommandEvent) => {
       const source = event.source;
       const productId = source.dataset.productId;
       const productName = source.dataset.productName;
 
-      if (!productId || !productName) return;
+      if (!productId || !productName) {
+        return;
+      }
 
       handleAddToCart(productId, productName);
     },
     [handleAddToCart],
   );
 
-  useEffect(() => {
-    const cartElement = cartRef.current;
-    if (!cartElement) return;
+  const cartRef = useCallback(
+    (element: HTMLDivElement) => {
+      if (!element) {
+        return;
+      }
+      // コマンドイベントを登録
+      element.addEventListener("command", handleCommand);
 
-    cartElement.addEventListener("command", handleCommand);
-
-    return () => {
-      cartElement.removeEventListener("command", handleCommand);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      // React 19以降ではrefもクリーンアップが可能に
+      return () => {
+        element.removeEventListener("command", handleCommand);
+      };
+    },
+    [handleCommand],
+  );
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.count, 0);
 
