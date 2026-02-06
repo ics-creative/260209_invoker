@@ -12,7 +12,6 @@ interface CartItem {
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  // const cartRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -53,7 +52,7 @@ const Cart = () => {
   );
 
   const cartRef = useCallback(
-    (element: HTMLDivElement) => {
+    (element: HTMLButtonElement | null) => {
       if (!element) {
         return;
       }

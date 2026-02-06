@@ -1,6 +1,6 @@
 import type { InterestEvent } from "../types";
 
-let showPreview = false;
+let isWaiting = false;
 
 const previewElement = document.querySelector<HTMLElement>(".preview");
 const previewImageElement = previewElement?.querySelector<HTMLImageElement>(".ogpImage");
@@ -16,10 +16,9 @@ previewElement?.addEventListener("interest", async (event: InterestEvent) => {
   if (previewElement) {
     previewElement.style.positionAnchor = sourceElement.style.anchorName;
   }
-
+  isWaiting = false;
   const response = await fetch(url);
   const html = await response.text();
-  showPreview = true;
 
   // DOMParserでHTMLをパース
   const parser = new DOMParser();
@@ -49,18 +48,19 @@ previewElement?.addEventListener("interest", async (event: InterestEvent) => {
 
 previewElement?.addEventListener("loseinterest", async () => {
   if (previewElement && previewImageElement && previewTitleElement && previewDescriptionElement) {
+    isWaiting = true;
     // アニメーションを待つために250ms待つ
     await new Promise((resolve) => setTimeout(resolve, 250));
-    if (showPreview) {
-      return; // プレビューが表示されている場合は何もしない
-    }
-    // データをクリア
-    previewImageElement.src = "";
-    previewTitleElement.textContent = "";
-    previewDescriptionElement.textContent = "";
+
     // プレビューを非表示
-    previewElement?.hidePopover?.();
-    showPreview = false;
+    if (isWaiting) {
+      // データをクリア
+      previewImageElement.src = "";
+      previewTitleElement.textContent = "";
+      previewDescriptionElement.textContent = "";
+      previewElement?.hidePopover?.();
+      isWaiting = false;
+    }
   }
 });
 
