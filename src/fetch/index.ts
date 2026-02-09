@@ -24,15 +24,15 @@ previewElement?.addEventListener("interest", async (event: InterestEvent) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
 
-  // タイトルを取得（og:title → titleタグ）
-  const title = doc.querySelector(`meta[property="og:title"]`)?.getAttribute("content") || "";
+  // タイトルを取得（og:title）
+  const title = doc.querySelector(`meta[property="og:title"]`)?.getAttribute("content") ?? "";
 
-  // 説明を取得（og:description → meta description）
+  // 説明を取得（og:description）
   const description =
-    doc.querySelector(`meta[property="og:description"]`)?.getAttribute("content") || "";
+    doc.querySelector(`meta[property="og:description"]`)?.getAttribute("content") ?? "";
 
   // 画像を取得（og:image）
-  const image = doc.querySelector(`meta[property="og:image"]`)?.getAttribute("content") || "";
+  const image = doc.querySelector(`meta[property="og:image"]`)?.getAttribute("content") ?? "";
 
   if (previewElement && previewImageElement && previewTitleElement && previewDescriptionElement) {
     // 画像の読み込みが完了するまで待つ
