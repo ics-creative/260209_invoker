@@ -11,10 +11,12 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     root: resolve(__dirname, "src"),
     base,
+    publicDir: resolve(__dirname, "public"),
     build: {
       outDir: resolve(__dirname, "dist"),
       rollupOptions: {
         input: {
+          index: resolve(__dirname, "src/index.html"),
           cart: resolve(__dirname, "src/cart/index.html"),
           changeColor: resolve(__dirname, "src/change-color/index.html"),
           fetch: resolve(__dirname, "src/fetch/index.html"),

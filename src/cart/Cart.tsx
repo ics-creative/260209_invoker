@@ -38,6 +38,7 @@ const Cart = () => {
    */
   const handleCommand = useCallback(
     (event: CommandEvent) => {
+      // 自前で用意したtypes.d.tsでevent型を拡張済み
       const source = event.source;
       const productId = source.dataset.productId;
       const productName = source.dataset.productName;

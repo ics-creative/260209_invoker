@@ -1,11 +1,9 @@
-
 let isWaiting = false;
 
 const previewElement = document.querySelector(".preview");
 const previewImageElement = previewElement?.querySelector(".ogpImage");
 const previewTitleElement = previewElement?.querySelector(".ogpTitle");
-const previewDescriptionElement =
-  previewElement?.querySelector(".ogpDescription");
+const previewDescriptionElement = previewElement?.querySelector(".ogpDescription");
 
 previewElement?.addEventListener("interest", async (event) => {
   const sourceElement = event.source;
